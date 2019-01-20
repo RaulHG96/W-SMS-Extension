@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<title>W-SMS</title>
+	<link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
+	<style type="text/css">
+		.contenedor {
+			width: 250px;
+		}
+		div.leyenda{
+			background-color: rgba(0,0,0,0.5);
+			padding-bottom: 3px;
+			padding-top: 3px;
+			color: #ffffff;
+			text-align: center;
+		}		
+	</style>
+</head>
+<body>
+	<div class="leyenda">
+		<img src="../img/sms.png" alt="Icono W-SMS" class="img-responsive icon img-thumbnail" width="15%;"> W-SMS
+	</div>	
+	<div class="contenedor">
+		<div class="container" align="center">
+			<div class="row">
+				<br>
+				<div class="col-xs-12">
+					<span class="glyphicon glyphicon-globe text-info" style="font-size: 250%;"></span>
+				</div>
+				<div class="col-xs-12" align="justify">
+					<h5>
+						<strong>
+						Para verificar su cuenta, ingrese la llave proporcionada en la página: 
+						</strong><br /><br />
+						<strong>
+							<a href="http://pruebas.krb-it.mx/wsms/" title="Página de W-SMS" target="_blank">http://pruebas.krb-it.mx/wsms</a>
+						</strong>
+					</h5>
+					<hr />
+				</div>
+				<div class="col-xs-12">
+					<div class="input-group">
+				      <div class="input-group-addon btn-warning active">
+				      	<span class="glyphicon glyphicon-flash"></span>
+				      </div>
+				      <input type="text" class="form-control" id="API_key" placeholder="Llave API">
+				    </div>			
+				    <br />
+				    <button type="button" class="btn btn-info btn-sm" id="btn_verificar_llave">Verificar</button>
+				    <br /><br />
+				    <div class="alert alert-danger" role="alert" id="alerta" style="display: none;">
+						<!-- CONTENIDO DE ALERTA-->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="js/jquery-3.2.1.min.js"></script>
+	<script src="lib/bootstrap/js/bootstrap.min.js"></script>
+	<script src="js/script.js"></script>
+</body>
+</html>
