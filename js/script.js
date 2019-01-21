@@ -57,6 +57,13 @@
 // 	}
 // }
 var contador = 0;
+// Dispath an event (of click, por instance)
+const eventFire = (el, etype) => {
+	var evt = document.createEvent("MouseEvents");
+	evt.initMouseEvent(etype, true, true, window,0, 0, 0, 0, 0, false, false, false, false, 0, null);
+	el.dispatchEvent(evt);
+}
+
 /**
  * Recepción de mensaje de script background de extensión
  */
@@ -65,21 +72,18 @@ chrome.runtime.onMessage.addListener(gotMessage);
 function gotMessage(message, sender, sendResponse){
 	switch(message.txt){
 		case "Whatsapp Web":
-			// mandarMensaje();
 			agregaJQuery(function () {
-				verificaMensajeNoLeidos();
+				setInterval(function () {
+					var arrayMsjSinLeer = verificaMensajeNoLeidos();
+					if (contador > 0 && typeof arrayMsjSinLeer[0]!='undefined') {
+						for (var i = 0; i < arrayMsjSinLeer.length; i++) {
+							eventFire($(arrayMsjSinLeer[i])[0].firstChild.firstChild, 'mousedown');
+						}
+					}
+				},2000);
 				console.log('Mensaje no leídos: ' + contador);
 			});
 		break;
-		// case "API Whatsapp":
-		// 	eventEnviar();
-		// break;
-		// case "Actualizar Leyenda":
-		// 	actualizarLeyendas(message.tipoAccion);
-		// break;
-		// case "En cola":
-		// 	$("#en_cola").html(message.cant);
-		// break;
 		default:
 		break;
 	}
@@ -87,18 +91,19 @@ function gotMessage(message, sender, sendResponse){
 
 function agregaJQuery(callback) {
 	// Para agregar jquery desde consola
-	var script = document.createElement("script");
-	script.setAttribute("src", "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js");
-	script.addEventListener('load', function() {
-		var script = document.createElement("script");
-		document.body.appendChild(script);
-	}, false);
-	document.body.appendChild(script);
+	// var script = document.createElement("script");
+	// script.setAttribute("src", "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js");
+	// script.addEventListener('load', function() {
+	// 	var script = document.createElement("script");
+	// 	document.body.appendChild(script);
+	// }, false);
+	// document.body.appendChild(script);
 	// Se llama a función
 	callback();
 }
 
 function verificaMensajeNoLeidos() {
+	var msjNoLeidos = [];
 	/////////////////////////////////////////////////////////////////////
 	// Para obtener el listado de mensajes en bandeja de entrada 	   //
 	// Se obtiene primero el arreglo de los chats que tiene el usuario //
@@ -123,9 +128,16 @@ function verificaMensajeNoLeidos() {
 			////////////////////////////////////////////////////////////////////////
 			if ($(element).css('background-color') == 'rgb(9, 210, 97)') {
 				contador++;
+				msjNoLeidos.push(elemento);
 			}
 		});
 	}
+
+	// if (typeof msjNoLeidos.pop() != 'undefined') {
+		msjNoLeidos = [msjNoLeidos.pop()];
+	// }
+
+	return msjNoLeidos;
 }
 
 // $("#btn_verificar_llave").click(function(){
